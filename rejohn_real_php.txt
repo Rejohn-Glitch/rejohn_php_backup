@@ -1,0 +1,92 @@
+-- Create Admins Table
+CREATE TABLE admins (
+    admin_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,  
+    password VARCHAR(255) NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Teachers Table with Year Level
+CREATE TABLE teachers (
+    teacher_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    year_level ENUM('First Year', 'Second Year', 'Third Year', 'Fourth Year') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Students Table with Year Level
+CREATE TABLE students (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    year_level ENUM('First Year', 'Second Year', 'Third Year', 'Fourth Year') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Classes Table with Year Level
+CREATE TABLE classes (
+    class_id INT PRIMARY KEY AUTO_INCREMENT,
+    class_name VARCHAR(50) NOT NULL,
+    year_level ENUM('First Year', 'Second Year', 'Third Year', 'Fourth Year') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Subjects Table BEFORE Teacher_Subjects
+CREATE TABLE subjects (
+    subject_id INT PRIMARY KEY AUTO_INCREMENT,
+    subject_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Teacher_Subjects Table (formerly class_subjects)
+CREATE TABLE teacher_subjects (
+    teacher_subject_id INT PRIMARY KEY AUTO_INCREMENT,
+    class_id INT NOT NULL,  
+    subject_id INT NOT NULL, 
+    teacher_id INT NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id) ON DELETE CASCADE
+);
+
+-- Create Enrollments Table with UNIQUE constraint to prevent duplicate enrollment 
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT NOT NULL,
+    class_id INT NOT NULL,
+    teacher_subject_id INT NOT NULL,  
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_subject_id) REFERENCES teacher_subjects(teacher_subject_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_enrollment (student_id, teacher_subject_id)
+);
+
+-- Create Grades Table with detailed grading components
+CREATE TABLE grades (
+    grade_id INT PRIMARY KEY AUTO_INCREMENT,
+    enrollment_id INT NOT NULL, 
+    prelim DECIMAL(5,2) NOT NULL,
+    midterm DECIMAL(5,2) NOT NULL,
+    pre DECIMAL(5,2) NOT NULL,  -- Pre-finals grade
+    finals DECIMAL(5,2) NOT NULL,
+    overall_grade DECIMAL(5,2) AS ((prelim + midterm + pre + finals)/4) STORED,  -- Optional computed column
+    status ENUM('Failing', 'Bad', 'Good', 'Very Good', 'Outstanding') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (enrollment_id) REFERENCES enrollments(enrollment_id) ON DELETE CASCADE
+);
+
+
+
+
+
+ALTER TABLE students ADD COLUMN class_id INT;
+-- And optionally add a foreign key:
+ALTER TABLE students ADD FOREIGN KEY (class_id) REFERENCES classes(class_id) ON DELETE SET NULL;

@@ -1,0 +1,27 @@
+-- First Year Classes
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-1A', 'First Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-1B', 'First Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-1C', 'First Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-1D', 'First Year');
+
+-- Second Year Classes
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-2A', 'Second Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-2B', 'Second Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-2C', 'Second Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-2D', 'Second Year');
+
+-- Third Year Classes
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-3A', 'Third Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-3B', 'Third Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-3C', 'Third Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-3D', 'Third Year');
+
+-- Fourth Year Classes
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-4A', 'Fourth Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-4B', 'Fourth Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-4C', 'Fourth Year');
+INSERT INTO classes (class_name, year_level) VALUES ('BSIT-4D', 'Fourth Year');
+
+
+Sql
+
